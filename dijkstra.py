@@ -1,6 +1,7 @@
 import sys
 import collections
 
+
 class UndirectedGraphAM:
 
     def __init__(self):
@@ -34,7 +35,6 @@ class UndirectedGraphAM:
         else:
             self.vertices[v][u] = weight
 
-
     def neighbours(self, u):
         if u in self.vertices:
             for i in self.vertices[u]:
@@ -52,11 +52,11 @@ class UndirectedGraphAM:
     def __repr__(self):
         rep = "Graph: { "
         for u in self.vertices:
-            rep += str(u) + ": "
+            rep += str(u) + ":"
             for v in self.vertices[u]:
-                rep +="{" +str(v)
+                rep +="(" +str(v)
                 if self.vertices[u][v]:
-                    rep+= ": "+str(self.vertices[u][v])+"} "
+                    rep+= ","+str(self.vertices[u][v])+") "
                 else:
                     rep+="), "
         return rep + "}"
@@ -130,9 +130,6 @@ class MinHeap:
     def __contains__(self, item):
         return True if item in self.node_position_map else False
 
-    def __repr__(self):
-        heap = [item for i, item in enumerate(self.heap) if i > 0]
-        return "Heap: " + str(heap)
 
 class HeapNode:
 
@@ -185,21 +182,23 @@ def dijkstras_algorithm(graph, start_vertex):
 
 if __name__=='__main__':
 
-    file_input = 'sample'
-    with open(file_input,'r+') as fobj:
-        num_of_testcases = int(fobj.readline().strip())
-        for i in range(num_of_testcases):
+    #file_input = 'dijkstra2_input.txt'
+    #with open(file_input,'r+') as fobj:
+    num_of_testcases = int(input().strip())
+    for i in range(num_of_testcases):
             graph = UndirectedGraphAM()
-            vertex, edges = (int(i) for i in fobj.readline().strip().split(" "))
+            vertex, edges = (int(i) for i in input().strip().split(" "))
             for i in range(edges):
-                u, v, weight = (int(i) for i in fobj.readline().strip().split(" "))
+                u, v, weight = (int(i) for i in input().strip().split(" "))
                 graph.add_edge(u, v, weight)
-            start_vertex = int(fobj.readline().strip())
+            start_vertex = int(input().strip())
             result = dijkstras_algorithm(graph, start_vertex)
             od = collections.OrderedDict(sorted(result.items()))
-            for key in od:
-                if key != start_vertex:
-                    print(od[key], end=" ")
+            for i in range(1,vertex+1):
+                if i != start_vertex:
+                    if i in od and od[i] != sys.maxsize:
+                        print(od[i], end = " ")
+                    else:
+                        print(-1, end = " ")
             print()
-
 
