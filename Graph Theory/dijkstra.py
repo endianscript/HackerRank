@@ -1,5 +1,6 @@
 import sys
 import collections
+from functools import total_ordering
 
 
 class UndirectedGraphAM:
@@ -60,7 +61,6 @@ class UndirectedGraphAM:
                 else:
                     rep+="), "
         return rep + "}"
-
 
 class MinHeap:
 
@@ -131,6 +131,7 @@ class MinHeap:
         return True if item in self.node_position_map else False
 
 
+@total_ordering
 class HeapNode:
 
     def __init__(self,key,value):
@@ -139,15 +140,6 @@ class HeapNode:
 
     def __gt__(self, other):
         return True if self.value > other.value else False
-
-    def __lt__(self, other):
-        return True if self.value < other.value else False
-
-    def __le__(self, other):
-        return True if self.value <= other.value else False
-
-    def __ge__(self, other):
-        return True if self.value >= other.value else False
 
     def __repr__(self):
         return "("+str(self.key)+", "+str(self.value)+")"
